@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}The Honest Friend — Behavioural Intelligence Agent{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-eyebrow">🇳🇬 DSN × BCT LLM Agent Challenge 2026</div>
+  <h1>Recommendations from your<br/><span>most trusted Nigerian friend</span></h1>
+  <p class="hero-sub">
+    An AI agent that studies how you review places, learns your personality,
+    and recommends what you'll genuinely enjoy — honest, opinionated, and culturally aware.
+  </p>
+  <div class="hero-buttons">
+    <a href="#persona-section" class="btn btn-primary">Build My Persona →</a>
+    <a href="#compare-section" class="btn btn-secondary">See Comparison Lab</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <span class="hero-stat-value">15,209</span>
+      <span class="hero-stat-label">Reviews Analysed</span>
+    </div>
+    <div>
+      <span class="hero-stat-value">500</span>
+      <span class="hero-stat-label">User Personas</span>
+    </div>
+    <div>
+      <span class="hero-stat-value">Llama 4</span>
+      <span class="hero-stat-label">Scout Powered</span>
+    </div>
+    <div>
+      <span class="hero-stat-value">2</span>
+      <span class="hero-stat-label">Agent Tasks</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── STEP 1: PERSONA ── -->
+<section id="persona-section" class="page-section">
+  <div class="step-indicator">
+    <div class="step-number">1</div>
+    <span class="step-label">Build Your Persona</span>
+  </div>
+  <h2 class="section-title">Tell us about your past experiences</h2>
+  <p class="section-desc">Paste your reviews below — one per line — in the format: STARS | YOUR REVIEW TEXT. The agent will extract your behavioural profile.</p>
+
+  <div class="card card-gold">
+    <div class="form-group">
+      <label class="form-label">Your Reviews</label>
+      <textarea class="form-textarea" id="userReviewsInput" rows="6" placeholder="4 | Solid spot, service was decent. Prices a bit steep but worth it.
+5 | Best jollof rice I've had outside my mama's kitchen. Will definitely return.
+2 | Waited 45 minutes for food. Not acceptable. The taste was average at best.">4 | Solid spot, service was decent. Prices a bit steep but worth it.
+5 | Best jollof rice I've had outside my mama's kitchen. Will definitely return.
+2 | Waited 45 minutes for food. Not acceptable. The taste was average at best.
+4 | Good atmosphere, fast service. Price is fair for the quality.
+3 | Okay experience. Nothing spectacular, nothing terrible.</textarea>
+    </div>
+    <button class="btn btn-primary" onclick="buildPersona()">Analyse My Reviews →</button>
+    <div id="personaCard" class="persona-card hidden"></div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- ── TASK A ── -->
+<section id="task-a" class="page-section">
+  <div class="step-indicator">
+    <div class="step-number">2</div>
+    <span class="step-label">Task A — Review Generator</span>
+  </div>
+  <h2 class="section-title">How would you review this?</h2>
+  <p class="section-desc">Give us a product or place. The agent simulates exactly how you'd review it based on your persona.</p>
+
+  <div class="card">
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Product / Place Name</label>
+        <input type="text" class="form-input" id="productName" placeholder="e.g. Mama Titi's Kitchen, Chef Emeka's Grill" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <input type="text" class="form-input" id="productCategory" placeholder="e.g. Fast Food" />
+      </div>
+      <div class="form-group" style="grid-column: 1 / -1">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-input" id="productDesc" placeholder="Brief description..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Price Range</label>
+        <input type="text" class="form-input" id="productPrice" placeholder="e.g. ₦2,000 – ₦5,000" />
+      </div>
+      <div style="display:flex;align-items:flex-end">
+        <button class="btn btn-primary" style="width:100%" onclick="submitReviewRequest()">Generate Review →</button>
+      </div>
+    </div>
+    <div id="reviewResult" class="result-box hidden"></div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- ── COMPARISON LAB ── -->
+<section id="compare-section" class="page-section">
+  <div class="step-indicator">
+    <div class="step-number" style="background:var(--green);color:var(--navy)">⚡</div>
+    <span class="step-label" style="color:var(--green)">Comparison Lab</span>
+  </div>
+  <h2 class="section-title">Same product. Different personas.</h2>
+  <p class="section-desc">Test two users with different review histories on the same product simultaneously. The delta proves behavioural fidelity.</p>
+
+  <div class="card">
+    <div class="compare-grid" style="margin-bottom:1.25rem">
+      <div>
+        <div class="compare-col-label gold">👤 Persona A</div>
+        <textarea class="form-textarea" id="personaAReviews" rows="5" placeholder="4 | Paste reviews here...">4 | Solid spot, service was decent. Prices a bit steep but worth it.
+5 | Best jollof rice I've had outside my mama's kitchen. Will definitely return.
+2 | Waited 45 minutes for food. Not acceptable.
+4 | Good atmosphere, fast service. Price is fair.
+3 | Okay experience. Nothing spectacular.</textarea>
+      </div>
+      <div>
+        <div class="compare-col-label green">👤 Persona B</div>
+        <textarea class="form-textarea" id="personaBReviews" rows="5" placeholder="1 | Paste reviews here...">1 | Terrible service, waited forever, food was cold. Never coming back.
+2 | Overpriced for what you get. My mama cooks better for free.
+1 | Absolute rubbish. Waited 1 hour, food was wrong, staff were rude.
+2 | Too expensive for average food. Not worth the hype at all.
+1 | Worst experience ever. They charged me extra for nothing.</textarea>
+      </div>
+    </div>
+
+    <div class="form-grid" style="margin-bottom:1.25rem">
+      <div class="form-group">
+        <label class="form-label">Product Name</label>
+        <input type="text" class="form-input" id="compareProductName" value="Mama Titi's Kitchen" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <input type="text" class="form-input" id="compareProductCategory" value="Nigerian Restaurant" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-input" id="compareProductDesc" value="Popular local restaurant known for jollof rice, egusi soup, and peppered gizzard. Busy at weekends, moderate seating, friendly staff." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Price Range</label>
+        <input type="text" class="form-input" id="compareProductPrice" value="₦3,500 - ₦6,000" />
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="runComparison()">⚡ Run Comparison</button>
+
+    <div id="compareResults" class="compare-results hidden">
+      <div class="compare-result-col">
+        <div class="compare-result-header gold">👤 Persona A</div>
+        <div class="compare-result-body" id="compareBodyA">
+          <p class="loading">Generating...</p>
+        </div>
+      </div>
+      <div class="compare-result-col">
+        <div class="compare-result-header green">👤 Persona B</div>
+        <div class="compare-result-body" id="compareBodyB">
+          <p class="loading">Generating...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- ── TASK B ── -->
+<section id="task-b" class="page-section">
+  <div class="step-indicator">
+    <div class="step-number">3</div>
+    <span class="step-label">Task B — Recommendation Agent</span>
+  </div>
+  <h2 class="section-title">What should you do next?</h2>
+  <p class="section-desc">Tell the agent your vibe. Get recommendations your most trusted Nigerian friend would actually make.</p>
+
+  <div class="card">
+    <div class="form-grid">
+      <div class="form-group" style="grid-column: 1 / -1">
+        <label class="form-label">What's your vibe today?</label>
+        <input type="text" class="form-input" id="mood" placeholder="e.g. Catching up with an old friend, Date night, Treating myself after work..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Budget</label>
+        <input type="text" class="form-input" id="budget" placeholder="e.g. ₦5,000 max" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input type="text" class="form-input" id="location" placeholder="e.g. Victoria Island, Lagos" />
+      </div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:0.75rem" onclick="submitRecommendRequest()">Get My Recommendations →</button>
+    <div id="recommendResult" class="result-box hidden"></div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock %}

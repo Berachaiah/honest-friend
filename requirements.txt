@@ -1,0 +1,15 @@
+django>=4.2,<5.0
+djangorestframework>=3.14
+python-dotenv>=1.0
+transformers>=4.40
+sentence-transformers>=2.7
+faiss-cpu>=1.7
+torch>=2.2
+huggingface-hub>=0.22
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+tqdm>=4.66
+requests>=2.31
+gunicorn>=21.2
+whitenoise>=6.6
