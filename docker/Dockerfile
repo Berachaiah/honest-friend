@@ -15,8 +15,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . .
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Collect static files (dummy key for build step only)
+RUN DJANGO_SECRET_KEY=build-time-dummy-key \
+    DJANGO_DEBUG=False \
+    DJANGO_ALLOWED_HOSTS=localhost \
+    python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
