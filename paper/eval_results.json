@@ -1,0 +1,168 @@
+{
+  "n_users": 20,
+  "rmse": 0.7717,
+  "rouge_l": 0.2006,
+  "avg_delta": 0.625,
+  "per_user": [
+    {
+      "user_id": "-B-QEUESGWHP",
+      "actual": 4.0,
+      "predicted": 3.5,
+      "delta": 0.5,
+      "rouge_l": 0.185,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-FxsSuwDbIII",
+      "actual": 4.0,
+      "predicted": 3.5,
+      "delta": 0.5,
+      "rouge_l": 0.269,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-G7Zkl1wIWBB",
+      "actual": 5.0,
+      "predicted": 3.5,
+      "delta": 1.5,
+      "rouge_l": 0.119,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-KduD3wwydWD",
+      "actual": 3.0,
+      "predicted": 3.0,
+      "delta": 0.0,
+      "rouge_l": 0.207,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-THLGnsYKu3y",
+      "actual": 4.0,
+      "predicted": 4.0,
+      "delta": 0.0,
+      "rouge_l": 0.216,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-V7frksbFjKQ",
+      "actual": 4.0,
+      "predicted": 4.0,
+      "delta": 0.0,
+      "rouge_l": 0.202,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-ZHlPAvlVdgt",
+      "actual": 3.0,
+      "predicted": 4.0,
+      "delta": 1.0,
+      "rouge_l": 0.139,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-dgC1iRp_JqB",
+      "actual": 5.0,
+      "predicted": 4.5,
+      "delta": 0.5,
+      "rouge_l": 0.174,
+      "rating_style": "generous"
+    },
+    {
+      "user_id": "-hKniZN2Odsh",
+      "actual": 5.0,
+      "predicted": 4.2,
+      "delta": 0.8,
+      "rouge_l": 0.23,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "-kLVfaJytOJY",
+      "actual": 5.0,
+      "predicted": 4.2,
+      "delta": 0.8,
+      "rouge_l": 0.156,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0-hb63A9uWjR",
+      "actual": 3.0,
+      "predicted": 3.5,
+      "delta": 0.5,
+      "rouge_l": 0.131,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0DB3Irpf_ETV",
+      "actual": 3.0,
+      "predicted": 4.2,
+      "delta": 1.2,
+      "rouge_l": 0.164,
+      "rating_style": "generous"
+    },
+    {
+      "user_id": "0E-IU4qDXps1",
+      "actual": 3.0,
+      "predicted": 3.5,
+      "delta": 0.5,
+      "rouge_l": 0.139,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0G-QF457q_0Z",
+      "actual": 3.0,
+      "predicted": 4.0,
+      "delta": 1.0,
+      "rouge_l": 0.133,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0Igx-a1wAsti",
+      "actual": 3.0,
+      "predicted": 4.0,
+      "delta": 1.0,
+      "rouge_l": 0.22,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0MJ5sKX5uq7M",
+      "actual": 3.0,
+      "predicted": 3.0,
+      "delta": 0.0,
+      "rouge_l": 0.24,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0YI3p9o-ntRg",
+      "actual": 3.0,
+      "predicted": 3.5,
+      "delta": 0.5,
+      "rouge_l": 0.193,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0dIvVs3PY64b",
+      "actual": 3.0,
+      "predicted": 4.2,
+      "delta": 1.2,
+      "rouge_l": 0.309,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "0yYCMhDWCEIV",
+      "actual": 4.0,
+      "predicted": 4.0,
+      "delta": 0.0,
+      "rouge_l": 0.205,
+      "rating_style": "balanced"
+    },
+    {
+      "user_id": "16yfdXvoj6ra",
+      "actual": 5.0,
+      "predicted": 4.0,
+      "delta": 1.0,
+      "rouge_l": 0.38,
+      "rating_style": "balanced"
+    }
+  ]
+}

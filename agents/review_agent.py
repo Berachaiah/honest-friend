@@ -3,6 +3,7 @@ Task A — Review Generation Agent.
 Given a user persona + product details, generates a simulated review and star rating.
 """
 from __future__ import annotations
+import logging
 from agents.persona_builder import build_persona, persona_to_prompt_block
 from core.llm import generate
 from core.nigerian_voice import inject_nigerian_context, naija_rating_to_words

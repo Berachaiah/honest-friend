@@ -1,9 +1,8 @@
-django>=4.2,<5.0
+django>=6.0
 djangorestframework>=3.14
 python-dotenv>=1.0
-transformers>=4.40
 sentence-transformers>=2.7
-faiss-cpu>=1.7
+chromadb>=0.4
 torch>=2.2
 huggingface-hub>=0.22
 pandas>=2.0
@@ -13,3 +12,5 @@ tqdm>=4.66
 requests>=2.31
 gunicorn>=21.2
 whitenoise>=6.6
+rouge-score>=0.1.2
+bert-score>=0.3.13
