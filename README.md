@@ -3,7 +3,7 @@
 > *An LLM-based behavioural intelligence agent that recommends things the way your most trusted Nigerian friend would — honest, opinionated, and culturally aware.*
 
 **DSN × BCT LLM Agent Challenge — Data & AI Summit Hackathon 3.0**  
-Submitted by **Abolaji Berachaiah** · Bells University of Technology · Computer Engineering · 2022/11317
+Submitted by **Abolaji Berachaiah** · Bells University of Technology · Computer Engineering 
 
 ---
 
