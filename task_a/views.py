@@ -83,3 +83,37 @@ class GenerateReviewAPIView(APIView):
             'reasoning_chain': result.get('reasoning_chain') or 'Agent reasoning not captured',
             'naija_descriptor': result.get('naija_descriptor', ''),
         }, status=status.HTTP_200_OK)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def cold_start_view(request):
+    """Build persona from cold-start questionnaire answers."""
+    try:
+        from agents.cold_start import build_cold_start_persona
+        data    = json.loads(request.body)
+        answers = data.get('answers', {})
+        persona = build_cold_start_persona(answers)
+
+        # Build a display-friendly persona_display block
+        persona_display = {
+            'rating_style':    persona.get('rating_style', 'balanced'),
+            'avg_rating':      persona.get('avg_rating', 3.5),
+            'rating_std':      persona.get('rating_std', 0.5),
+            'verbosity':       persona.get('verbosity', 'moderate'),
+            'sentiment_bias':  persona.get('sentiment_bias', 'neutral'),
+            'price_sensitivity': persona.get('price_sensitivity', 'medium'),
+            'consistency':     persona.get('consistency', 'consistent'),
+            'top_categories':  persona.get('top_categories', []),
+            'review_count':    0,
+            'cold_start':      True,
+        }
+
+        return JsonResponse({
+            'success':        True,
+            'persona':        persona,
+            'persona_display': persona_display,
+            'cold_start':     True,
+        })
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

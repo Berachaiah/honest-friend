@@ -56,7 +56,58 @@
 4 | Good atmosphere, fast service. Price is fair for the quality.
 3 | Okay experience. Nothing spectacular, nothing terrible.</textarea>
     </div>
-    <button class="btn btn-primary" onclick="buildPersona()">Analyse My Reviews →</button>
+    <div class="cold-start-toggle" onclick="toggleColdStart()">
+      <span id="cold-start-toggle-icon">▶</span>
+      No review history? Answer a few quick questions instead →
+    </div>
+
+    <div id="cold-start-form" class="cold-start-form hidden">
+      <div class="form-group">
+        <label class="form-label">How strict are you with ratings?</label>
+        <div class="rating-scale">
+          <span class="scale-label">Easy — give 5★ freely</span>
+          <div class="scale-buttons" id="strictness-buttons">
+            <button class="scale-btn" onclick="selectStrictness(1)">1</button>
+            <button class="scale-btn" onclick="selectStrictness(2)">2</button>
+            <button class="scale-btn active" onclick="selectStrictness(3)">3</button>
+            <button class="scale-btn" onclick="selectStrictness(4)">4</button>
+            <button class="scale-btn" onclick="selectStrictness(5)">5</button>
+          </div>
+          <span class="scale-label">Strict — only 5★ if perfect</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">What matters most to you? (pick all that apply)</label>
+        <div class="priority-buttons">
+          <button class="priority-btn" onclick="togglePriority(this, 'price')">💰 Price / Value</button>
+          <button class="priority-btn" onclick="togglePriority(this, 'quality')">⭐ Food Quality</button>
+          <button class="priority-btn" onclick="togglePriority(this, 'service')">🤝 Service</button>
+          <button class="priority-btn" onclick="togglePriority(this, 'atmosphere')">✨ Atmosphere</button>
+          <button class="priority-btn" onclick="togglePriority(this, 'speed')">⚡ Speed</button>
+          <button class="priority-btn" onclick="togglePriority(this, 'location')">📍 Location</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">3 things you love in any experience</label>
+        <input type="text" class="form-input" id="cold-loves" placeholder="e.g. fast service, generous portions, great ambience" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">3 things you hate</label>
+        <input type="text" class="form-input" id="cold-hates" placeholder="e.g. long waits, overpriced, rude staff" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Typical budget per outing</label>
+        <input type="text" class="form-input" id="cold-budget" placeholder="e.g. ₦3,000 – ₦6,000" />
+      </div>
+
+      <button class="btn btn-primary" onclick="submitColdStart()">Build My Persona →</button>
+    </div>
+
+    <button class="btn btn-primary" id="analyse-btn" onclick="buildPersona()">Analyse My Reviews →</button>
     <div id="personaCard" class="persona-card hidden"></div>
   </div>
 </section>

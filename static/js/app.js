@@ -441,3 +441,108 @@ function getDemoReviews() {
     { stars: 3, text: "Okay experience. Nothing spectacular, nothing terrible.", user_id: "demo" },
   ];
 }
+// ── Cold Start ──
+let COLD_START_STRICTNESS = 3;
+let COLD_START_PRIORITIES = [];
+
+function toggleColdStart() {
+  const form = document.getElementById('cold-start-form');
+  const icon = document.getElementById('cold-start-toggle-icon');
+  const analyseBtn = document.getElementById('analyse-btn');
+  const textarea = document.getElementById('userReviewsInput');
+
+  if (form.classList.contains('hidden')) {
+    form.classList.remove('hidden');
+    icon.textContent = '▼';
+    textarea.disabled = true;
+    textarea.style.opacity = '0.4';
+    analyseBtn.style.display = 'none';
+  } else {
+    form.classList.add('hidden');
+    icon.textContent = '▶';
+    textarea.disabled = false;
+    textarea.style.opacity = '1';
+    analyseBtn.style.display = '';
+  }
+}
+
+function selectStrictness(val) {
+  COLD_START_STRICTNESS = val;
+  document.querySelectorAll('.scale-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i + 1 === val);
+  });
+}
+
+function togglePriority(btn, value) {
+  btn.classList.toggle('active');
+  if (btn.classList.contains('active')) {
+    COLD_START_PRIORITIES.push(value);
+  } else {
+    COLD_START_PRIORITIES = COLD_START_PRIORITIES.filter(p => p !== value);
+  }
+}
+
+async function submitColdStart() {
+  const loves  = document.getElementById('cold-loves').value.trim();
+  const hates  = document.getElementById('cold-hates').value.trim();
+  const budget = document.getElementById('cold-budget').value.trim();
+  const personaCard = document.getElementById('personaCard');
+
+  if (!loves || !hates) {
+    alert('Please fill in what you love and hate.');
+    return;
+  }
+
+  personaCard.className = 'persona-card';
+  personaCard.innerHTML = `
+    <div class="persona-card-header">
+      <span>⏳</span>
+      <h4>Building your persona from questionnaire...</h4>
+    </div>
+  `;
+
+  const answers = {
+    rating_strictness: COLD_START_STRICTNESS,
+    priorities: COLD_START_PRIORITIES,
+    loves: loves.split(',').map(s => s.trim()).filter(Boolean),
+    hates: hates.split(',').map(s => s.trim()).filter(Boolean),
+    price_budget: budget,
+  };
+
+  try {
+    const res = await fetch('/api/task-a/cold-start/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Set global persona so Task A and Task B work normally
+      CURRENT_PERSONA = data.persona_display;
+      // Build synthetic reviews array so downstream agents have something to work with
+      CURRENT_REVIEWS = [
+        { stars: data.persona_display.avg_rating, text: `Things I love: ${loves}. Things I hate: ${hates}. Priorities: ${COLD_START_PRIORITIES.join(', ')}.`, user_id: 'cold_start' }
+      ];
+
+      personaCard.innerHTML = buildPersonaCardHTML(
+        data.persona_display,
+        `Cold-start persona built from your answers. Rating strictness: ${COLD_START_STRICTNESS}/5.`
+      );
+
+      // Add cold-start badge to the card header
+      const header = personaCard.querySelector('.persona-card-header h4');
+      if (header) {
+        header.innerHTML += '<span class="cold-start-badge">✨ Cold Start</span>';
+      }
+
+      // Close the form
+      toggleColdStart();
+
+    } else {
+      personaCard.innerHTML = `<div class="persona-card-header"><span>❌</span><h4>Error: ${data.error}</h4></div>`;
+    }
+  } catch (e) {
+    personaCard.innerHTML = `<div class="persona-card-header"><span>❌</span><h4>Request failed: ${e.message}</h4></div>`;
+  }
+}
