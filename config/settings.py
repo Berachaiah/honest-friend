@@ -8,7 +8,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-key-change-in-production')
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+# Auto-add Railway domain if present
+RAILWAY_HOST = os.getenv('RAILWAY_PUBLIC_DOMAIN', '')
+if RAILWAY_HOST and RAILWAY_HOST not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RAILWAY_HOST)
+
+# Allow all hosts in production if explicitly set
+if os.getenv('ALLOW_ALL_HOSTS', 'False') == 'True':
+    ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.staticfiles',
@@ -42,7 +52,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# No database needed — this is a stateless inference API
 DATABASES = {}
 
 LANGUAGE_CODE = 'en-us'
@@ -65,7 +74,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-# App-specific config
 HUGGINGFACE_TOKEN = os.getenv('HUGGINGFACE_TOKEN', '')
 GROQ_API_KEY = os.getenv('GROQ_API_KEY', '')
 MODEL_NAME = os.getenv('MODEL_NAME', 'meta-llama/Llama-4-Scout-17B-16E-Instruct')
