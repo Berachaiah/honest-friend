@@ -80,3 +80,6 @@ MODEL_NAME = os.getenv('MODEL_NAME', 'meta-llama/Llama-4-Scout-17B-16E-Instruct'
 DATA_DIR = BASE_DIR / 'data'
 SAMPLE_DATA_PATH = DATA_DIR / 'sample' / 'reviews_sample.csv'
 EMBEDDING_MODEL = 'sentence-transformers/all-MiniLM-L6-v2'
+
+# Railway healthcheck host
+ALLOWED_HOSTS += ['healthcheck.railway.app', '.railway.app', '.up.railway.app']
