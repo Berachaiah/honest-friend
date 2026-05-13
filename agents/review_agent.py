@@ -3,7 +3,6 @@ Task A — Review Generation Agent.
 Given a user persona + product details, generates a simulated review and star rating.
 """
 from __future__ import annotations
-import logging
 from agents.persona_builder import build_persona, persona_to_prompt_block
 from core.llm import generate
 from core.nigerian_voice import inject_nigerian_context, naija_rating_to_words
@@ -11,12 +10,21 @@ from core.scoring import self_evaluate
 
 
 def generate_review(persona: dict, product: dict) -> dict:
-    
+
     persona_block = persona_to_prompt_block(persona)
 
-    # Handle missing/zero price BEFORE building the prompt
     price = product.get('avg_price', '')
     price_display = price if price and price not in ['₦0', '0', ''] else 'not specified'
+
+    avg = persona.get('avg_rating', 3.0)
+    style = persona.get('rating_style', 'balanced')
+    if style == 'critical':
+        lo, hi = 1.0, 3.0
+    elif style == 'generous':
+        lo, hi = 3.5, 5.0
+    else:
+        lo = max(1.0, round(avg - 1.5, 1))
+        hi = min(5.0, round(avg + 1.5, 1))
 
     base_prompt = f"""
 You are simulating a review written by a specific Nigerian user. You must sound like a real person — not a robot, not a food blogger, not a customer service form. A real Nigerian with opinions.
@@ -37,7 +45,9 @@ STRICT INSTRUCTIONS:
    Format: "This user said: '[exact quote]' — this means they will [specific prediction]."
    Do NOT give generic descriptions. Do NOT say "this user tends to..." without a quote first.
 
-2. RATING — Give a star rating (1.0 to 5.0). Be precise. A generous rater gives 4.5 where a critical one gives 2.0.
+2. RATING — You MUST give a rating between {lo} and {hi}.
+   This user's historical average is {avg}/5 and their style is {style}.
+   A rating outside {lo}–{hi} is factually wrong and unacceptable. Do not do it.
 
 PRICE LOGIC — CRITICAL RULE:
 - Under ₦1,000: NEVER call it expensive. Complain about quality or portions instead.
@@ -57,15 +67,16 @@ EXAMPLES OF GOOD NIGERIAN REVIEW VOICE:
 - "E too cost for what they give you. My neighbor's buka does better for half the price."
 - "Honestly? One of the better spots in Lagos. The jollof alone will make you forget your problems."
 
+CRITICAL FINAL REMINDER: Your RATING must be between {lo} and {hi}. No exceptions.
+
 Format your response EXACTLY like this:
 REASONING: <quote from their reviews then your prediction>
-RATING: <single number 1.0 to 5.0>
+RATING: <single number between {lo} and {hi}>
 REVIEW: <the simulated review in the user's voice>
 """
 
     prompt = inject_nigerian_context(base_prompt, persona)
     raw_output = generate(prompt, max_tokens=800)
-    logging.warning(f"RAW LLM OUTPUT:\n{raw_output}")  # add this
     parsed = _parse_output(raw_output)
 
     confidence = self_evaluate(
