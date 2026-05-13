@@ -797,3 +797,61 @@ body {
   font-size: 0.78rem;
   margin-left: 0.5rem;
 }
+
+/* ── Full Mobile Responsiveness ── */
+@media (max-width: 768px) {
+
+  /* Navbar */
+  .nav-links { display: none; }
+  .navbar { padding: 0 1rem; }
+  .nav-badge { display: none; }
+
+  /* Hero */
+  .hero { padding: 3.5rem 1.25rem 3rem; }
+  .hero h1 { font-size: 1.85rem; letter-spacing: -0.5px; }
+  .hero-sub { font-size: 0.95rem; }
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .hero-buttons .btn { width: 100%; max-width: 320px; justify-content: center; }
+  .hero-stats { gap: 1.25rem; flex-wrap: wrap; margin-top: 2.5rem; padding-top: 1.75rem; }
+  .hero-stats > div { min-width: 80px; text-align: center; }
+  .hero-stat-value { font-size: 1.2rem; }
+
+  /* Sections */
+  .page-section { padding: 2rem 1rem; }
+  .section-title { font-size: 1.25rem; }
+
+  /* Cards */
+  .card { padding: 1.25rem; }
+
+  /* Forms */
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid > div[style*="grid-column"] { grid-column: 1; }
+
+  /* Persona card */
+  .persona-card-body { grid-template-columns: 1fr; gap: 1rem; }
+
+  /* Comparison lab */
+  .compare-grid { grid-template-columns: 1fr; }
+  .compare-results { grid-template-columns: 1fr; }
+  .delta-banner { grid-column: 1; }
+  .delta-number { font-size: 1.75rem; }
+
+  /* Result boxes */
+  .result-rating { font-size: 1.5rem; }
+  .compare-rating { font-size: 1.4rem; }
+
+  /* Cold start */
+  .rating-scale { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .cold-start-form { padding: 1rem; }
+
+  /* Buttons */
+  .btn { padding: 0.65rem 1.25rem; font-size: 0.875rem; }
+}
+
+@media (max-width: 400px) {
+  .hero h1 { font-size: 1.55rem; }
+  .hero-stats { gap: 1rem; }
+  .hero-stat-value { font-size: 1.05rem; }
+  .card { padding: 1rem; border-radius: var(--radius); }
+  .delta-number { font-size: 1.5rem; }
+}
