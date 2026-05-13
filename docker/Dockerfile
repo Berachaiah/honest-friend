@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Cache bust — increment this when source changes don't trigger rebuild
+ARG CACHE_BUST=2
 COPY . .
 
 RUN DJANGO_SECRET_KEY=build-time-dummy-key \
