@@ -246,6 +246,18 @@
     </div>
     <button class="btn btn-primary" style="margin-top:0.75rem" onclick="submitRecommendRequest()">Get My Recommendations →</button>
     <div id="recommendResult" class="result-box hidden"></div>
+
+    <div id="followupSection" class="followup-section" style="margin-top:1rem">
+      <div class="form-group">
+        <label class="form-label">🔄 Refine your recommendations</label>
+        <div style="display:flex;gap:0.75rem;align-items:center">
+          <input type="text" class="form-input" id="followupInput"
+            placeholder="e.g. Actually I only have ₦2,000 now... or I am vegetarian..." />
+          <button class="btn btn-secondary" style="white-space:nowrap" onclick="submitFollowUp()">Refine →</button>
+          <button class="btn btn-secondary" style="white-space:nowrap;opacity:0.6" onclick="resetConversation()">Reset</button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 

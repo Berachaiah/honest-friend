@@ -310,6 +310,12 @@ async function submitRecommendRequest() {
         }
       }
 
+      // Save first turn to history for multiturn
+      CONVERSATION_HISTORY = [{
+        recommendations: (r.recommendations || []).slice(0, 2),
+        agent_verdict: r.verdict || ''
+      }];
+
     } else {
       resultBox.innerHTML = `<p style="color:red">Error: ${data.error}</p>`;
     }
@@ -545,4 +551,81 @@ async function submitColdStart() {
   } catch (e) {
     personaCard.innerHTML = `<div class="persona-card-header"><span>❌</span><h4>Request failed: ${e.message}</h4></div>`;
   }
+}
+
+// ── Multiturn Recommendation ──
+let CONVERSATION_HISTORY = [];
+
+async function submitFollowUp() {
+  const followup = document.getElementById('followupInput').value.trim();
+  const mood     = document.getElementById('mood').value.trim();
+  const budget   = document.getElementById('budget').value.trim();
+  const location = document.getElementById('location').value.trim();
+  const resultBox = document.getElementById('recommendResult');
+
+  if (!followup) { alert('Please enter a follow-up message.'); return; }
+
+  const reviews = CURRENT_REVIEWS.length > 0 ? CURRENT_REVIEWS : getDemoReviews();
+
+  resultBox.className = 'result-box';
+  resultBox.innerHTML = '<p class="loading">⏳ Refining recommendations based on your follow-up...</p>';
+
+  try {
+    const res = await fetch('/api/task-b/recommend/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reviews,
+        context: { mood, budget, location },
+        followup,
+        history: CONVERSATION_HISTORY,
+      })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      const r = data.result;
+
+      // Save to history
+      CONVERSATION_HISTORY.push({
+        recommendations: r.recommendations?.slice(0, 2) || [],
+        agent_verdict: r.verdict || ''
+      });
+
+      resultBox.innerHTML = `
+        <div class="multiturn-badge">🔄 Refined from your follow-up: "${followup}"</div>
+        <div class="result-section">
+          <h4>Updated Recommendations</h4>
+          <ol style="padding-left:1.2rem" id="recs-list-followup"></ol>
+        </div>
+        <p id="verdict-followup" style="margin-top:1rem;font-weight:700;color:var(--green)"></p>
+      `;
+
+      const recsList = document.getElementById('recs-list-followup');
+      for (const rec of (r.recommendations || [])) {
+        const cleaned = rec.replace(/^\d+\.\s*/, '');
+        const li = document.createElement('li');
+        li.style.marginBottom = '0.75rem';
+        recsList.appendChild(li);
+        await typeText(li, cleaned, 10);
+      }
+      if (r.verdict) {
+        await typeText(document.getElementById('verdict-followup'), r.verdict, 20);
+      }
+
+      // Clear followup input
+      document.getElementById('followupInput').value = '';
+
+    } else {
+      resultBox.innerHTML = `<p style="color:red">Error: ${data.error}</p>`;
+    }
+  } catch (e) {
+    resultBox.innerHTML = `<p style="color:red">Request failed: ${e.message}</p>`;
+  }
+}
+
+function resetConversation() {
+  CONVERSATION_HISTORY = [];
+  document.getElementById('followupSection').classList.add('hidden');
+  document.getElementById('recommendResult').className = 'result-box hidden';
 }

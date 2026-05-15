@@ -855,3 +855,18 @@ body {
   .card { padding: 1rem; border-radius: var(--radius); }
   .delta-number { font-size: 1.5rem; }
 }
+
+/* ── Multiturn ── */
+.followup-section {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 1rem;
+}
+.multiturn-badge {
+  background: rgba(0,166,81,0.12);
+  border: 1px solid rgba(0,166,81,0.3);
+  color: var(--green);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
