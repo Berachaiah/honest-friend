@@ -557,13 +557,26 @@ async function submitColdStart() {
 let CONVERSATION_HISTORY = [];
 
 async function submitFollowUp() {
-  const followup = document.getElementById('followupInput').value.trim();
-  const mood     = document.getElementById('mood').value.trim();
-  const budget   = document.getElementById('budget').value.trim();
-  const location = document.getElementById('location').value.trim();
+  const followup  = document.getElementById('followupInput').value.trim();
+  const mood      = document.getElementById('mood').value.trim();
+  const location  = document.getElementById('location').value.trim();
   const resultBox = document.getElementById('recommendResult');
 
   if (!followup) { alert('Please enter a follow-up message.'); return; }
+
+  // Extract budget from followup if mentioned, update field and use new value
+  const budgetMatch = followup.match(/[₦]?\s*(\d[\d,]+)/);
+  let budget = document.getElementById('budget').value.trim();
+  if (budgetMatch) {
+    budget = '₦' + budgetMatch[1];
+    document.getElementById('budget').value = budget;
+  }
+
+  // Extract budget from followup if mentioned
+  const budgetMatch = followup.match(/[₦#]?\s*(\d[\d,]*)/);
+  if (budgetMatch) {
+    document.getElementById('budget').value = '₦' + budgetMatch[1];
+  }
 
   const reviews = CURRENT_REVIEWS.length > 0 ? CURRENT_REVIEWS : getDemoReviews();
 
