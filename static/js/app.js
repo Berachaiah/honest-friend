@@ -573,10 +573,6 @@ async function submitFollowUp() {
   }
 
   // Extract budget from followup if mentioned
-  const budgetMatch = followup.match(/[₦#]?\s*(\d[\d,]*)/);
-  if (budgetMatch) {
-    document.getElementById('budget').value = '₦' + budgetMatch[1];
-  }
 
   const reviews = CURRENT_REVIEWS.length > 0 ? CURRENT_REVIEWS : getDemoReviews();
 
